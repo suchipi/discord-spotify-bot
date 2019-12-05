@@ -8,7 +8,8 @@
     "@suchipi/spotify-player": "1.0.2",
     "discord.js": "^11.4.2",
     "dotenv": "^6.1.0",
-    "alsa": "0.0.2"
+    "prism-media": "^1.1.0",
+    "pypress": "^1.0.1"
   },
   "devDependencies": {
     "eslint": "^6.6.0",

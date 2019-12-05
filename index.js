@@ -3,6 +3,7 @@ require("dotenv").config();
 const Discord = require("discord.js");
 const spotify = require("@suchipi/spotify-player");
 const py = require("pypress");
+const prism = require("prism-media");
 
 const client = new Discord.Client();
 
@@ -12,15 +13,19 @@ client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`);
   spotify.login(process.env.SPOTIFY_USERNAME, process.env.SPOTIFY_PASSWORD);
   if (process.platform !== "darwin") {
-    const alsa = require("alsa");
-    alsaStream = alsa.Capture(
-      process.env.ALSA_DEVICE,
-      2,
-      44100,
-      alsa.FORMAT_S16_LE,
-      alsa.ACCESS_RW_INTERLEAVED,
-      250
-    );
+    alsaStream = new prism.FFmpeg({
+      args:
+        // prettier-ignore
+        [
+          '-analyzeduration', '0',
+          '-loglevel', '0',
+          '-f', 'alsa',
+          '-i', process.env.ALSA_DEVICE,
+          '-f', 's16le',
+          '-ar', '48000',
+          '-ac', '2',
+        ],
+    });
   }
 });
 

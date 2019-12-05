@@ -61,7 +61,7 @@ client.on("message", (message) => {
 
       case "exit": {
         spotify.logout();
-        Promise.all(py, client.destroy()).then(() => {
+        Promise.all([py, client.destroy()]).then(() => {
           process.exit();
         });
       }

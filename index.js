@@ -11,7 +11,11 @@ let alsaStream;
 
 client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`);
-  spotify.login(process.env.SPOTIFY_USERNAME, process.env.SPOTIFY_PASSWORD);
+  spotify
+    .login(process.env.SPOTIFY_USERNAME, process.env.SPOTIFY_PASSWORD)
+    .then(() => {
+      console.log("logged in to Spotify");
+    });
   if (process.platform !== "darwin") {
     alsaStream = new prism.FFmpeg({
       args:
@@ -67,7 +71,10 @@ client.on("message", (message) => {
             .then((connection) => {
               voiceConnection = connection;
               if (alsaStream) {
+                console.log("playing stream");
                 connection.playStream(alsaStream);
+              } else {
+                console.log("no stream to play");
               }
             })
             .catch((err) => {

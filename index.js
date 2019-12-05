@@ -11,11 +11,10 @@ let alsaStream;
 
 client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`);
-  spotify
-    .login(process.env.SPOTIFY_USERNAME, process.env.SPOTIFY_PASSWORD)
-    .then(() => {
-      console.log("logged in to Spotify");
-    });
+  spotify.login(process.env.SPOTIFY_USERNAME, process.env.SPOTIFY_PASSWORD);
+  py.then(() => {
+    console.log("logged in to Spotify");
+  });
   if (process.platform !== "darwin") {
     alsaStream = new prism.FFmpeg({
       args:

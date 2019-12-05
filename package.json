@@ -1,0 +1,24 @@
+{
+  "name": "discord-spotify-bot",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "@suchipi/spotify-player": "1.0.2",
+    "discord.js": "^11.4.2",
+    "dotenv": "^6.1.0",
+    "alsa": "0.0.2"
+  },
+  "devDependencies": {
+    "eslint": "^6.6.0",
+    "eslint-config-unobtrusive": "^1.2.5",
+    "eslint-plugin-import": "^2.18.2",
+    "nodemon": "^1.18.7",
+    "prettier": "^1.18.2"
+  },
+  "scripts": {
+    "dev": "nodemon index.js",
+    "start": "./watcher.sh"
+  }
+}

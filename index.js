@@ -59,6 +59,13 @@ client.on("message", (message) => {
         break;
       }
 
+      case "exit": {
+        spotify.logout();
+        Promise.all(py, client.destroy()).then(() => {
+          process.exit();
+        });
+      }
+
       case "join": {
         if (message.member.voiceChannel) {
           if (voiceConnection) {
@@ -150,6 +157,7 @@ client.on("message", (message) => {
             "`.spotify nowplaying`, `.spotify np`, `.spotify info` - Show information about the current track",
             "`.spotify list`, `.spotify help` - Show this command list",
             "`.spotify restart` - Log out of Spotify and back in",
+            "`.spotify exit` - This kills the bot",
           ].join("\n")
         );
         break;

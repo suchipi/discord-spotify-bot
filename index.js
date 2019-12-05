@@ -16,6 +16,7 @@ client.on("ready", () => {
 });
 
 let voiceConnection;
+let alsaStream;
 client.on("message", (message) => {
   console.log(
     `${message.channel.name}: ${message.author.username} (${message.author.id}): ${message.content}`
@@ -44,6 +45,9 @@ client.on("message", (message) => {
 
       case "exit": {
         spotify.logout();
+        if (alsaStream) {
+          alsaStream.destroy();
+        }
         Promise.all([py, client.destroy()]).then(() => {
           process.exit();
         });
@@ -60,7 +64,10 @@ client.on("message", (message) => {
             .then((connection) => {
               voiceConnection = connection;
               if (process.platform !== "darwin") {
-                const alsaStream = new prism.FFmpeg({
+                if (alsaStream) {
+                  alsaStream.destroy();
+                }
+                alsaStream = new prism.FFmpeg({
                   args:
                     // prettier-ignore
                     [

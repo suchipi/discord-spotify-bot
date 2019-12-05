@@ -7,29 +7,12 @@ const prism = require("prism-media");
 
 const client = new Discord.Client();
 
-let alsaStream;
-
 client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`);
   spotify.login(process.env.SPOTIFY_USERNAME, process.env.SPOTIFY_PASSWORD);
   py.then(() => {
     console.log("logged in to Spotify");
   });
-  if (process.platform !== "darwin") {
-    alsaStream = new prism.FFmpeg({
-      args:
-        // prettier-ignore
-        [
-          '-analyzeduration', '0',
-          '-loglevel', '0',
-          '-f', 'alsa',
-          '-i', process.env.ALSA_DEVICE,
-          '-f', 's16le',
-          '-ar', '48000',
-          '-ac', '2',
-        ],
-    });
-  }
 });
 
 let voiceConnection;
@@ -76,11 +59,21 @@ client.on("message", (message) => {
             .join()
             .then((connection) => {
               voiceConnection = connection;
-              if (alsaStream) {
-                console.log("playing stream");
+              if (process.platform !== "darwin") {
+                const alsaStream = new prism.FFmpeg({
+                  args:
+                    // prettier-ignore
+                    [
+                      '-analyzeduration', '0',
+                      '-loglevel', '0',
+                      '-f', 'alsa',
+                      '-i', process.env.ALSA_DEVICE,
+                      '-f', 's16le',
+                      '-ar', '48000',
+                      '-ac', '2',
+                    ],
+                });
                 connection.playConvertedStream(alsaStream);
-              } else {
-                console.log("no stream to play");
               }
             })
             .catch((err) => {

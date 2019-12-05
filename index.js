@@ -71,7 +71,7 @@ client.on("message", (message) => {
               voiceConnection = connection;
               if (alsaStream) {
                 console.log("playing stream");
-                connection.playStream(alsaStream);
+                connection.playConvertedStream(alsaStream);
               } else {
                 console.log("no stream to play");
               }

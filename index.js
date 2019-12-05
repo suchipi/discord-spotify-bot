@@ -77,7 +77,9 @@ client.on("message", (message) => {
               }
             })
             .catch((err) => {
-              message.channel.send();
+              message.channel.send(
+                ["Join error", "```", err.stack, "```"].join("\n")
+              );
             });
         } else {
           message.channel.send("You need to join a voice channel first!");

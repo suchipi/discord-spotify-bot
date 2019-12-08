@@ -73,7 +73,8 @@ function joinAndPlayStream() {
       ],
   });
 
-  state.voice.connection.playStream(state.alsaStream, {
+  console.log(`Playing alsa stream at bitrate ${state.bitrate}`);
+  state.voice.connection.playConvertedStream(state.alsaStream, {
     bitrate: state.bitrate,
   });
 }

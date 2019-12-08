@@ -89,8 +89,6 @@ function disconnectFromVoice() {
     state.voice.connection.disconnect();
     state.voice.connection = null;
   }
-
-  state.voice.channel = null;
 }
 
 onExit(() => {

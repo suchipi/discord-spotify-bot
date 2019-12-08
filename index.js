@@ -44,6 +44,7 @@ function joinAndPlayStream() {
             );
           }
         });
+      return;
     } else {
       if (state.text.channel) {
         state.text.channel.send(

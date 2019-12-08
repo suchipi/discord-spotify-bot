@@ -1902,6 +1902,11 @@ ogg-packet@^1.0.0:
   dependencies:
     ref-struct "*"
 
+on-exit@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/on-exit/-/on-exit-1.0.1.tgz#52e19c1521ff21a42a56cc3476b8b44146b88b3f"
+  integrity sha1-UuGcFSH/IaQqVsw0dri0QUa4iz8=
+
 once@^1.3.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/once/-/once-1.4.0.tgz#583b1aa775961d4b113ac17d9c50baef9dd76bd1"

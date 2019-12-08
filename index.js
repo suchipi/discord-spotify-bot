@@ -4,6 +4,7 @@ const Discord = require("discord.js");
 const spotify = require("@suchipi/spotify-player");
 const py = require("pypress");
 const prism = require("prism-media");
+const onExit = require("on-exit");
 
 const client = new Discord.Client();
 
@@ -89,6 +90,13 @@ function disconnectFromVoice() {
 
   state.voice.channel = null;
 }
+
+onExit(() => {
+  disconnectFromVoice();
+  spotify.logout();
+  client.destroy();
+});
+onExit.logger(console.log.bind(console));
 
 client.on("message", (message) => {
   console.log(

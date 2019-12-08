@@ -15,14 +15,81 @@ client.on("ready", () => {
   });
 });
 
-let voiceConnection;
-let alsaStream;
+const state = {
+  text: {
+    channel: null,
+  },
+  voice: {
+    channel: null,
+    connection: null,
+  },
+  alsaStream: null,
+  bitrate: 320000 /* 320kbps */,
+};
+
+function joinAndPlayStream() {
+  if (!state.voice.connection) {
+    if (state.voice.channel) {
+      state.voice.channel
+        .join()
+        .then((connection) => {
+          state.voice.connection = connection;
+          joinAndPlayStream();
+        })
+        .catch((err) => {
+          if (state.text.channel) {
+            state.text.channel.send(
+              ["Join error", "```", err.stack, "```"].join("\n")
+            );
+          }
+        });
+    }
+  }
+
+  if (state.alsaStream) {
+    state.alsaStream.destroy();
+  }
+  state.alsaStream = new prism.FFmpeg({
+    args:
+      // prettier-ignore
+      [
+        '-analyzeduration', '0',
+        '-loglevel', '0',
+        '-f', 'alsa',
+        '-i', process.env.ALSA_DEVICE,
+        '-f', 's16le',
+        '-ar', '48000',
+        '-ac', '2',
+      ],
+  });
+
+  state.voice.connection.playStream(state.alsaStream, {
+    bitrate: state.bitrate,
+  });
+}
+
+function disconnectFromVoice() {
+  if (state.alsaStream) {
+    state.alsaStream.destroy();
+    state.alsaStream = null;
+  }
+
+  if (state.voice.connection) {
+    state.voice.connection.disconnect();
+    state.voice.connection = null;
+  }
+
+  state.voice.channel = null;
+}
+
 client.on("message", (message) => {
   console.log(
     `${message.channel.name}: ${message.author.username} (${message.author.id}): ${message.content}`
   );
 
   if (message.content.startsWith(".spotify ")) {
+    state.text.channel = message.channel;
+
     py.onError = (err) => {
       message.channel.send(
         ["Error:", "```", JSON.stringify(err.stack), "```"].join("\n")
@@ -34,6 +101,26 @@ client.on("message", (message) => {
       .split(/\s/);
 
     switch (command) {
+      case "bitrate": {
+        if (args.length === 0) {
+          message.channel.send(
+            `The bitrate is currently set to ${state.bitrate}bps.`
+          );
+        } else {
+          const newBitrate = parseInt(args[0]);
+          if (!Number.isNaN(newBitrate)) {
+            state.bitrate = newBitrate;
+
+            message.channel.send(`Bitrate set to ${newBitrate}bps.`);
+
+            disconnectFromVoice();
+            joinAndPlayStream();
+          }
+        }
+
+        break;
+      }
+
       case "restart": {
         spotify.logout();
         spotify.login(
@@ -44,10 +131,8 @@ client.on("message", (message) => {
       }
 
       case "exit": {
+        disconnectFromVoice();
         spotify.logout();
-        if (alsaStream) {
-          alsaStream.destroy();
-        }
         Promise.all([py, client.destroy()]).then(() => {
           process.exit();
         });
@@ -55,48 +140,17 @@ client.on("message", (message) => {
 
       case "join": {
         if (message.member.voiceChannel) {
-          if (voiceConnection) {
-            voiceConnection.disconnect();
-          }
+          state.voice.channel = message.member.voiceChannel;
 
-          message.member.voiceChannel
-            .join()
-            .then((connection) => {
-              voiceConnection = connection;
-              if (process.platform !== "darwin") {
-                if (alsaStream) {
-                  alsaStream.destroy();
-                }
-                alsaStream = new prism.FFmpeg({
-                  args:
-                    // prettier-ignore
-                    [
-                      '-analyzeduration', '0',
-                      '-loglevel', '0',
-                      '-f', 'alsa',
-                      '-i', process.env.ALSA_DEVICE,
-                      '-f', 's16le',
-                      '-ar', '48000',
-                      '-ac', '2',
-                    ],
-                });
-                connection.playConvertedStream(alsaStream);
-              }
-            })
-            .catch((err) => {
-              message.channel.send(
-                ["Join error", "```", err.stack, "```"].join("\n")
-              );
-            });
+          disconnectFromVoice();
+          joinAndPlayStream();
         } else {
           message.channel.send("You need to join a voice channel first!");
         }
         break;
       }
       case "leave": {
-        if (voiceConnection) {
-          voiceConnection.disconnect();
-        }
+        disconnectFromVoice();
         break;
       }
 
@@ -157,6 +211,7 @@ client.on("message", (message) => {
             "`.spotify nowplaying`, `.spotify np`, `.spotify info` - Show information about the current track",
             "`.spotify list`, `.spotify help` - Show this command list",
             "`.spotify restart` - Log out of Spotify and back in",
+            "`.spotify bitrate` - Get or set the audio stream bitrate",
             "`.spotify exit` - This kills the bot",
           ].join("\n")
         );

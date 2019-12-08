@@ -43,6 +43,14 @@ function joinAndPlayStream() {
             );
           }
         });
+    } else {
+      if (state.text.channel) {
+        state.text.channel.send(
+          "Can't join voice channel because state.voice.channel is null"
+        );
+      }
+
+      return;
     }
   }
 
@@ -140,9 +148,10 @@ client.on("message", (message) => {
 
       case "join": {
         if (message.member.voiceChannel) {
+          disconnectFromVoice();
+
           state.voice.channel = message.member.voiceChannel;
 
-          disconnectFromVoice();
           joinAndPlayStream();
         } else {
           message.channel.send("You need to join a voice channel first!");

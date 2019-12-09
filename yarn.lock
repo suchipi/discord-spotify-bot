@@ -18,13 +18,13 @@
     esutils "^2.0.2"
     js-tokens "^4.0.0"
 
-"@suchipi/spotify-player@1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@suchipi/spotify-player/-/spotify-player-1.0.2.tgz#51165ccfa1b28cc17ba598dc9083c725686c55af"
-  integrity sha512-1Pu3zMhZQ/w8MnpLqY5ja5Lt2yAC7uvK5UNE7YrsHo75mXbwEtwaYkvJ5KZ+xB+ayI7afAePTqpOhbQFy0H0lA==
+"@suchipi/spotify-player@1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@suchipi/spotify-player/-/spotify-player-1.0.3.tgz#082e1e8895ad0b5659f589296c1f07459e5a3c9d"
+  integrity sha512-QbZbT1Ey7BeJdFbsEu01aM0tJqLnzZF+gDvlTfiAjVLUDbUMkp06yvlHybZK0bpqOnM/UOK2kAAoNsBsD/0RXA==
   dependencies:
     dotenv "^8.2.0"
-    pypress "^1.0.1"
+    pypress "^2.0.1"
 
 "@types/color-name@^1.1.1":
   version "1.1.1"
@@ -2147,6 +2147,16 @@ pypress@^1.0.1:
     puppeteer "^2.0.0"
     sizzle "^2.3.4"
     withinviewport "^2.1.2"
+
+pypress@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/pypress/-/pypress-2.0.1.tgz#6d89b4a8a999f0747f16bdd5e9ca15f96ec92745"
+  integrity sha512-Lw8EVPjx6xkzcAU0+yssc7PcK82eV32S2oINLtddf+brZVBX9eIibedrNRtPNZgBj3RSn9Y4w0JCEiKvbIaPcw==
+  dependencies:
+    chalk "^3.0.0"
+    cypress-style-async "^1.0.1"
+    puppeteer "^2.0.0"
+    sizzle "^2.3.4"
 
 rc@^1.0.1, rc@^1.1.6, rc@^1.2.7:
   version "1.2.8"

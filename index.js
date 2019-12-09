@@ -2,7 +2,6 @@ require("dotenv").config();
 
 const Discord = require("discord.js");
 const spotify = require("@suchipi/spotify-player");
-const py = require("pypress");
 const prism = require("prism-media");
 const onExit = require("on-exit");
 
@@ -10,10 +9,11 @@ const client = new Discord.Client();
 
 client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`);
-  spotify.login(process.env.SPOTIFY_USERNAME, process.env.SPOTIFY_PASSWORD);
-  py.then(() => {
-    console.log("logged in to Spotify");
-  });
+  spotify
+    .login(process.env.SPOTIFY_USERNAME, process.env.SPOTIFY_PASSWORD)
+    .then(() => {
+      console.log("logged in to Spotify");
+    });
 });
 
 const state = {
@@ -91,6 +91,12 @@ function disconnectFromVoice() {
   }
 }
 
+function reportError(error) {
+  state.text.channel.send(
+    ["Error:", "```", JSON.stringify(error.stack), "```"].join("\n")
+  );
+}
+
 onExit(() => {
   disconnectFromVoice();
   spotify.logout();
@@ -105,12 +111,6 @@ client.on("message", (message) => {
 
   if (message.content.startsWith(".spotify ")) {
     state.text.channel = message.channel;
-
-    py.onError = (err) => {
-      message.channel.send(
-        ["Error:", "```", JSON.stringify(err.stack), "```"].join("\n")
-      );
-    };
 
     const [command, ...args] = message.content
       .replace(/^\.spotify /, "")
@@ -138,18 +138,16 @@ client.on("message", (message) => {
       }
 
       case "restart": {
-        spotify.logout();
-        spotify.login(
-          process.env.SPOTIFY_USERNAME,
-          process.env.SPOTIFY_PASSWORD
-        );
+        spotify.logout().catch(reportError);
+        spotify
+          .login(process.env.SPOTIFY_USERNAME, process.env.SPOTIFY_PASSWORD)
+          .catch(reportError);
         break;
       }
 
       case "exit": {
         disconnectFromVoice();
-        spotify.logout();
-        Promise.all([py, client.destroy()]).then(() => {
+        Promise.all([spotify.logout(), client.destroy()]).then(() => {
           process.exit();
         });
       }
@@ -173,33 +171,33 @@ client.on("message", (message) => {
 
       case "play": {
         if (args.length === 0) {
-          spotify.play();
+          spotify.play().catch(reportError);
         } else {
           if (args[0].startsWith("http")) {
-            spotify.playURL(args[0]);
+            spotify.playURL(args[0]).catch(reportError);
           } else {
-            spotify.searchAndPlay(args.join(" "));
+            spotify.searchAndPlay(args.join(" ")).catch(reportError);
           }
         }
 
         break;
       }
       case "pause": {
-        spotify.pause();
+        spotify.pause().catch(reportError);
         break;
       }
       case "previous": {
-        spotify.previous();
+        spotify.previous().catch(reportError);
         break;
       }
       case "next":
       case "skip": {
-        spotify.next();
+        spotify.next().catch(reportError);
         break;
       }
 
       case "radio": {
-        spotify.startRadio();
+        spotify.startRadio().catch(reportError);
         break;
       }
 

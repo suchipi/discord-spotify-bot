@@ -70,6 +70,7 @@ function joinAndPlayStream() {
         '-f', 's16le',
         '-ar', '48000',
         '-ac', '2',
+        '-b:a', String(state.bitrate)
       ],
   });
 

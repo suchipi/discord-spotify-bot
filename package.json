@@ -5,13 +5,12 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "@suchipi/spotify-player": "1.0.3",
+    "@suchipi/spotify-player": "1.0.4",
     "discord.js": "^11.4.2",
     "dotenv": "^6.1.0",
     "node-opus": "^0.3.3",
     "on-exit": "^1.0.1",
-    "prism-media": "^1.1.0",
-    "pypress": "^1.0.1"
+    "prism-media": "^1.1.0"
   },
   "devDependencies": {
     "eslint": "^6.6.0",

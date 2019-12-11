@@ -18,13 +18,13 @@
     esutils "^2.0.2"
     js-tokens "^4.0.0"
 
-"@suchipi/spotify-player@1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@suchipi/spotify-player/-/spotify-player-1.0.3.tgz#082e1e8895ad0b5659f589296c1f07459e5a3c9d"
-  integrity sha512-QbZbT1Ey7BeJdFbsEu01aM0tJqLnzZF+gDvlTfiAjVLUDbUMkp06yvlHybZK0bpqOnM/UOK2kAAoNsBsD/0RXA==
+"@suchipi/spotify-player@1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@suchipi/spotify-player/-/spotify-player-1.0.4.tgz#261804cfc0934de8276df080bc0049f6c2f80369"
+  integrity sha512-UsHYqlhCbPrXpXUe5H7t9o9bv0edACv/8ZMNmvAsIIkvpoOmY1t83/Qqcc5lQU5LdUnzQNEMIr0CRpw6HVQ4Iw==
   dependencies:
     dotenv "^8.2.0"
-    pypress "^2.0.1"
+    pypress "^2.0.2"
 
 "@types/color-name@^1.1.1":
   version "1.1.1"
@@ -2137,21 +2137,10 @@ puppeteer@^2.0.0:
     rimraf "^2.6.1"
     ws "^6.1.0"
 
-pypress@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/pypress/-/pypress-1.0.1.tgz#07046bd99c2203af5f1b2fd7f9a77fc6f7fa848b"
-  integrity sha512-ECT1c1mOy8S3cvXJauitTDWgm5ZEOs74HHxoWfOWf5psBupqCoVovEOidt6DiMzeQArb4XlJE8A4ZupQekTFUw==
-  dependencies:
-    chalk "^3.0.0"
-    cypress-style-async "^1.0.1"
-    puppeteer "^2.0.0"
-    sizzle "^2.3.4"
-    withinviewport "^2.1.2"
-
-pypress@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/pypress/-/pypress-2.0.1.tgz#6d89b4a8a999f0747f16bdd5e9ca15f96ec92745"
-  integrity sha512-Lw8EVPjx6xkzcAU0+yssc7PcK82eV32S2oINLtddf+brZVBX9eIibedrNRtPNZgBj3RSn9Y4w0JCEiKvbIaPcw==
+pypress@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/pypress/-/pypress-2.0.2.tgz#96eb64dac45288ea62b2c9f751e12b54d0f476c1"
+  integrity sha512-1p6dMM/+OOdYsmUJa11Ahh0fgzeGIvwYx71u+YQBGz/Bzpp/5LEXPXMa8BKBW6deH0/oq3Qwx2xYXrVeWtoGWQ==
   dependencies:
     chalk "^3.0.0"
     cypress-style-async "^1.0.1"
@@ -2861,11 +2850,6 @@ widest-line@^2.0.0:
   integrity sha512-Ba5m9/Fa4Xt9eb2ELXt77JxVDV8w7qQrH0zS/TWSJdLyAwQjWoOzpzj5lwVftDz6n/EOu3tNACS84v509qwnJA==
   dependencies:
     string-width "^2.1.1"
-
-withinviewport@^2.1.2:
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/withinviewport/-/withinviewport-2.1.2.tgz#7b09a5e566be15e51211ebfd4afb9aad6bc5dc12"
-  integrity sha512-bOZt20QiBkAroXwCAVnb+ajYNPAzVrTKCKuVAuWtLbXlOk3e5cAS5diZMWhYP4Cpyq3GS47jk+fsb5tQqhIxtg==
 
 wordwrap@~1.0.0:
   version "1.0.0"

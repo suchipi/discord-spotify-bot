@@ -167,6 +167,7 @@ client.on("message", (message) => {
       }
       case "leave": {
         disconnectFromVoice();
+        spotify.pause().catch(reportError);
         break;
       }
 
